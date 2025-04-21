@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
 from typing import List
+from enum import Enum
+
 from services.recommendation_service.recommendation_service import (
     RecommendationService,
 )
@@ -9,6 +11,11 @@ from cache.redis_client import clear_all_cache
 
 router = APIRouter()
 recommendation_service = RecommendationService()
+
+
+class StrategyEnum(str, Enum):
+    history = "history"
+    preference = "preference"
 
 
 class RecommendationResponse(BaseModel):
@@ -31,10 +38,8 @@ class UserRecommendationResponse(BaseModel):
 )
 def get_user_recommendations(
     user_id: str,
-    strategy: str = Query(
-        default="history",
-        enum=["history", "preference"],
-        description="Estratégia de recomendação",
+    strategy: StrategyEnum = Query(
+        default=StrategyEnum.history, description="Estratégia de recomendação"
     ),
     min_score: float = Query(
         default=0.0, ge=0.0, le=1.0, description="Score mínimo de recomendação"
@@ -49,11 +54,10 @@ def get_user_recommendations(
     try:
         recommendations: list[Recommendation] = (
             recommendation_service.recommend_for_user(
-                user_id=user_id, strategy_name=strategy
+                user_id=user_id, strategy_name=strategy.value
             )
         )
 
-        # Filtro e paginação
         filtered = [r for r in recommendations if r.score >= min_score]
         paginated = filtered[offset : offset + limit]
 
@@ -85,7 +89,7 @@ def health_check():
 
 @router.delete(
     "/cache",
-    summary="Limpar cache de recomendações",
+    summary="Limpar cache Redis",
     description="Remove todos os dados armazenados em cache de recomendações",
     tags=["Infraestrutura"],
 )
