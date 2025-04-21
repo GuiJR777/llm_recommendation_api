@@ -12,10 +12,7 @@ class UserRepository:
                 del user["id"]
 
     def get_by_id(self, user_id: str) -> User:
-        data = next(
-            (u for u in self.users if u["user_id"] == user_id),
-            None
-        )
+        data = next((u for u in self.users if u["user_id"] == user_id), None)
         if not data:
             raise ValueError("User not found")
 
@@ -23,4 +20,3 @@ class UserRepository:
 
     def to_dict(self, user: User):
         return user.__dict__
-

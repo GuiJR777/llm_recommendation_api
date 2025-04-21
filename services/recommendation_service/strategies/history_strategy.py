@@ -23,7 +23,7 @@ class HistoryBasedRecommendationStrategy(RecommendationStrategy):
         recommendations = []
 
         for product_data in self.product_repo.products:
-            product_id = product_data["id"]
+            product_id = product_data["product_id"]
             score = 0.0
             reason_parts = []
 

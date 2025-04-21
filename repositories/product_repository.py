@@ -13,8 +13,7 @@ class ProductRepository:
 
     def get_by_id(self, product_id: str) -> Product:
         data = next(
-            (p for p in self.products if p["product_id"] == product_id),
-            None
+            (p for p in self.products if p["product_id"] == product_id), None
         )
         if not data:
             raise ValueError("Product not found")

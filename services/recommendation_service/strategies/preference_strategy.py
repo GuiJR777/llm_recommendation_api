@@ -48,7 +48,7 @@ class PreferenceBasedRecommendationStrategy(RecommendationStrategy):
             if score > 0:
                 recommendations.append(
                     Recommendation(
-                        product_id=product_data["id"],
+                        product_id=product_data["product_id"],
                         score=round(score, 2),
                         reason=" + ".join(reason_parts),
                     )
