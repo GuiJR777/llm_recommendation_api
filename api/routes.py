@@ -26,7 +26,7 @@ class UserRecommendationResponse(BaseModel):
     "/user-recommendations/{user_id}",
     response_model=UserRecommendationResponse,
     summary="Gerar recomendações para um usuário",
-    description="Retorna uma lista de produtos recomendados com score e razão, com base na estratégia especificada.",
+    description="Retorna uma lista de produtos recomendados com score e razão, com base na estratégia especificada.",  # noqa
     tags=["Recomendações"],
 )
 def get_user_recommendations(
