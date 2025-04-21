@@ -1,0 +1,7 @@
+# Dependências de produção
+-r requirements.txt
+
+# Dependências adicionais de desenvolvimento e testes
+pytest==8.3.5
+pytest-asyncio==0.26.0
+fakeredis==2.28.1
