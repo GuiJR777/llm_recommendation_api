@@ -9,6 +9,7 @@ Este projeto é uma solução para um desafio técnico que envolve:
 - Arquitetura modular seguindo princípios SOLID
 - Estratégias intercambiáveis com uso do padrão Strategy
 - Fallback automático para descrições genéricas
+- Cache com Redis configurável por variáveis de ambiente
 
 ## Como rodar
 
@@ -17,12 +18,39 @@ Este projeto é uma solução para um desafio técnico que envolve:
 pip install -r requirements.txt
 ```
 
-2. Inicie o servidor:
+2. Crie um arquivo `.env` na raiz com o seguinte conteúdo:
+```
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+CACHE_TTL_SECONDS=259200  # 72h
+```
+
+3. Inicie o servidor:
 ```
 uvicorn main:app --reload
 ```
 
-3. Acesse a documentação em: `http://localhost:8000/docs`
+4. Acesse a documentação em: `http://localhost:8000/docs`
+
+---
+
+## ⚙️ Configuração do Redis com .env
+
+Este projeto utiliza o Redis como mecanismo de cache. As variáveis de ambiente são carregadas a partir de um arquivo `.env`, utilizando `python-dotenv`.
+
+### 🔧 Exemplo de `.env`:
+
+```dotenv
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+CACHE_TTL_SECONDS=259200  # 72h
+```
+
+Essas variáveis são utilizadas em `utils/config.py` para configurar a conexão e TTL do cache.
+
+
 
 ---
 
@@ -80,7 +108,3 @@ A pontuação também é normalizada com pesos:
 | Preço dentro da faixa     | 0.1  |
 
 Todos os produtos do catálogo são avaliados e ordenados pela nota final. Produtos que se alinham com múltiplas preferências são priorizados.
-
----
-
-Este README foi estruturado para explicar o funcionamento técnico do projeto, ajudar na execução local e orientar sobre as decisões de design e testes.
