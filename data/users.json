@@ -1,0 +1,599 @@
+{
+  "users": [
+    {
+      "id": "u1001",
+      "name": "João Silva",
+      "email": "joao.silva@example.com",
+      "age": 34,
+      "gender": "M",
+      "location": "São Paulo",
+      "purchase_history": [
+        {
+          "product_id": "p1005",
+          "date": "2023-11-15",
+          "price": 149.99,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p2010",
+          "date": "2023-12-02",
+          "price": 79.90,
+          "quantity": 2,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p3001",
+          "date": "2024-01-10",
+          "price": 299.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p4020",
+          "date": "2024-02-27",
+          "price": 129.90,
+          "quantity": 1,
+          "rating": 3.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p1005", "date": "2023-11-10", "view_time_seconds": 120},
+        {"product_id": "p1007", "date": "2023-11-10", "view_time_seconds": 45},
+        {"product_id": "p2010", "date": "2023-11-30", "view_time_seconds": 180},
+        {"product_id": "p2012", "date": "2023-11-30", "view_time_seconds": 60},
+        {"product_id": "p3001", "date": "2024-01-08", "view_time_seconds": 240},
+        {"product_id": "p3005", "date": "2024-01-08", "view_time_seconds": 90},
+        {"product_id": "p4020", "date": "2024-02-25", "view_time_seconds": 150},
+        {"product_id": "p4022", "date": "2024-02-25", "view_time_seconds": 30},
+        {"product_id": "p5001", "date": "2024-03-15", "view_time_seconds": 200},
+        {"product_id": "p5008", "date": "2024-03-15", "view_time_seconds": 75}
+      ],
+      "cart_events": [
+        {"product_id": "p5001", "action": "add", "date": "2024-03-15"},
+        {"product_id": "p5001", "action": "remove", "date": "2024-03-15"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "books", "home_appliances"],
+        "brands": ["TechMaster", "BookWorld", "HomeComfort"],
+        "price_range": "medium_high"
+      }
+    },
+    {
+      "id": "u1002",
+      "name": "Maria Oliveira",
+      "email": "maria.oliveira@example.com",
+      "age": 28,
+      "gender": "F",
+      "location": "Rio de Janeiro",
+      "purchase_history": [
+        {
+          "product_id": "p6001",
+          "date": "2023-10-20",
+          "price": 89.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p7010",
+          "date": "2023-11-05",
+          "price": 159.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p8005",
+          "date": "2023-12-18",
+          "price": 49.90,
+          "quantity": 3,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p9002",
+          "date": "2024-01-22",
+          "price": 129.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p7012",
+          "date": "2024-02-14",
+          "price": 219.90,
+          "quantity": 1,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p6001", "date": "2023-10-18", "view_time_seconds": 150},
+        {"product_id": "p6005", "date": "2023-10-18", "view_time_seconds": 60},
+        {"product_id": "p7010", "date": "2023-11-03", "view_time_seconds": 210},
+        {"product_id": "p7015", "date": "2023-11-03", "view_time_seconds": 45},
+        {"product_id": "p8005", "date": "2023-12-15", "view_time_seconds": 180},
+        {"product_id": "p8010", "date": "2023-12-15", "view_time_seconds": 90},
+        {"product_id": "p9002", "date": "2024-01-20", "view_time_seconds": 240},
+        {"product_id": "p9005", "date": "2024-01-20", "view_time_seconds": 60},
+        {"product_id": "p7012", "date": "2024-02-12", "view_time_seconds": 300},
+        {"product_id": "p7016", "date": "2024-02-12", "view_time_seconds": 120},
+        {"product_id": "p6010", "date": "2024-03-05", "view_time_seconds": 180},
+        {"product_id": "p8015", "date": "2024-03-18", "view_time_seconds": 150}
+      ],
+      "cart_events": [
+        {"product_id": "p6010", "action": "add", "date": "2024-03-05"},
+        {"product_id": "p6010", "action": "remove", "date": "2024-03-05"},
+        {"product_id": "p8015", "action": "add", "date": "2024-03-18"}
+      ],
+      "preferences": {
+        "categories": ["fashion", "beauty", "accessories"],
+        "brands": ["StylePlus", "BeautyEssence", "FashionTrend"],
+        "price_range": "medium"
+      }
+    },
+    {
+      "id": "u1003",
+      "name": "Carlos Santos",
+      "email": "carlos.santos@example.com",
+      "age": 42,
+      "gender": "M",
+      "location": "Belo Horizonte",
+      "purchase_history": [
+        {
+          "product_id": "p2001",
+          "date": "2023-09-08",
+          "price": 1299.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p2015",
+          "date": "2023-09-08",
+          "price": 249.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p4010",
+          "date": "2023-11-25",
+          "price": 349.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p1020",
+          "date": "2024-01-30",
+          "price": 179.90,
+          "quantity": 2,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p2001", "date": "2023-09-05", "view_time_seconds": 300},
+        {"product_id": "p2010", "date": "2023-09-05", "view_time_seconds": 120},
+        {"product_id": "p2015", "date": "2023-09-06", "view_time_seconds": 180},
+        {"product_id": "p2020", "date": "2023-09-06", "view_time_seconds": 60},
+        {"product_id": "p4010", "date": "2023-11-23", "view_time_seconds": 240},
+        {"product_id": "p4015", "date": "2023-11-23", "view_time_seconds": 90},
+        {"product_id": "p1020", "date": "2024-01-28", "view_time_seconds": 210},
+        {"product_id": "p1025", "date": "2024-01-28", "view_time_seconds": 45},
+        {"product_id": "p3010", "date": "2024-03-10", "view_time_seconds": 270},
+        {"product_id": "p5015", "date": "2024-03-22", "view_time_seconds": 180}
+      ],
+      "cart_events": [
+        {"product_id": "p3010", "action": "add", "date": "2024-03-10"},
+        {"product_id": "p3010", "action": "remove", "date": "2024-03-10"},
+        {"product_id": "p5015", "action": "add", "date": "2024-03-22"},
+        {"product_id": "p5015", "action": "checkout", "date": "2024-03-22"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "sports", "tools"],
+        "brands": ["TechMaster", "SportElite", "ToolPro"],
+        "price_range": "high"
+      }
+    },
+    {
+      "id": "u1004",
+      "name": "Ana Pereira",
+      "email": "ana.pereira@example.com",
+      "age": 23,
+      "gender": "F",
+      "location": "Brasília",
+      "purchase_history": [
+        {
+          "product_id": "p8010",
+          "date": "2023-10-12",
+          "price": 59.90,
+          "quantity": 2,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p6005",
+          "date": "2023-12-05",
+          "price": 149.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p9010",
+          "date": "2024-02-02",
+          "price": 89.90,
+          "quantity": 1,
+          "rating": 3.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p8010", "date": "2023-10-10", "view_time_seconds": 150},
+        {"product_id": "p8015", "date": "2023-10-10", "view_time_seconds": 60},
+        {"product_id": "p6005", "date": "2023-12-03", "view_time_seconds": 180},
+        {"product_id": "p6010", "date": "2023-12-03", "view_time_seconds": 45},
+        {"product_id": "p9010", "date": "2024-01-30", "view_time_seconds": 210},
+        {"product_id": "p9015", "date": "2024-01-30", "view_time_seconds": 90},
+        {"product_id": "p7005", "date": "2024-03-08", "view_time_seconds": 240},
+        {"product_id": "p8020", "date": "2024-03-20", "view_time_seconds": 180}
+      ],
+      "cart_events": [
+        {"product_id": "p7005", "action": "add", "date": "2024-03-08"},
+        {"product_id": "p7005", "action": "checkout", "date": "2024-03-08"},
+        {"product_id": "p8020", "action": "add", "date": "2024-03-20"}
+      ],
+      "preferences": {
+        "categories": ["fashion", "books", "home_decor"],
+        "brands": ["StylePlus", "BookWorld", "HomeArt"],
+        "price_range": "low_medium"
+      }
+    },
+    {
+      "id": "u1005",
+      "name": "Paulo Mendes",
+      "email": "paulo.mendes@example.com",
+      "age": 37,
+      "gender": "M",
+      "location": "Porto Alegre",
+      "purchase_history": [
+        {
+          "product_id": "p5010",
+          "date": "2023-09-15",
+          "price": 199.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p3015",
+          "date": "2023-11-12",
+          "price": 399.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p1015",
+          "date": "2024-01-05",
+          "price": 149.90,
+          "quantity": 1,
+          "rating": 3.5
+        },
+        {
+          "product_id": "p2025",
+          "date": "2024-02-18",
+          "price": 549.90,
+          "quantity": 1,
+          "rating": 5.0
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p5010", "date": "2023-09-13", "view_time_seconds": 180},
+        {"product_id": "p5015", "date": "2023-09-13", "view_time_seconds": 60},
+        {"product_id": "p3015", "date": "2023-11-10", "view_time_seconds": 240},
+        {"product_id": "p3020", "date": "2023-11-10", "view_time_seconds": 90},
+        {"product_id": "p1015", "date": "2024-01-03", "view_time_seconds": 150},
+        {"product_id": "p1020", "date": "2024-01-03", "view_time_seconds": 45},
+        {"product_id": "p2025", "date": "2024-02-16", "view_time_seconds": 300},
+        {"product_id": "p2030", "date": "2024-02-16", "view_time_seconds": 120},
+        {"product_id": "p4025", "date": "2024-03-12", "view_time_seconds": 270},
+        {"product_id": "p1030", "date": "2024-03-25", "view_time_seconds": 210}
+      ],
+      "cart_events": [
+        {"product_id": "p4025", "action": "add", "date": "2024-03-12"},
+        {"product_id": "p4025", "action": "remove", "date": "2024-03-12"},
+        {"product_id": "p1030", "action": "add", "date": "2024-03-25"},
+        {"product_id": "p1030", "action": "checkout", "date": "2024-03-25"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "home_appliances", "tools"],
+        "brands": ["TechMaster", "HomeComfort", "ToolPro"],
+        "price_range": "medium_high"
+      }
+    },
+    {
+      "id": "u1006",
+      "name": "Luiza Costa",
+      "email": "luiza.costa@example.com",
+      "age": 31,
+      "gender": "F",
+      "location": "Salvador",
+      "purchase_history": [
+        {
+          "product_id": "p7005",
+          "date": "2023-10-05",
+          "price": 129.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p9005",
+          "date": "2023-11-20",
+          "price": 179.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p8015",
+          "date": "2024-01-15",
+          "price": 69.90,
+          "quantity": 2,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p6015",
+          "date": "2024-02-28",
+          "price": 159.90,
+          "quantity": 1,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p7005", "date": "2023-10-03", "view_time_seconds": 210},
+        {"product_id": "p7010", "date": "2023-10-03", "view_time_seconds": 60},
+        {"product_id": "p9005", "date": "2023-11-18", "view_time_seconds": 240},
+        {"product_id": "p9010", "date": "2023-11-18", "view_time_seconds": 90},
+        {"product_id": "p8015", "date": "2024-01-13", "view_time_seconds": 180},
+        {"product_id": "p8020", "date": "2024-01-13", "view_time_seconds": 45},
+        {"product_id": "p6015", "date": "2024-02-26", "view_time_seconds": 270},
+        {"product_id": "p6020", "date": "2024-02-26", "view_time_seconds": 120},
+        {"product_id": "p7020", "date": "2024-03-15", "view_time_seconds": 300},
+        {"product_id": "p9015", "date": "2024-03-28", "view_time_seconds": 210}
+      ],
+      "cart_events": [
+        {"product_id": "p7020", "action": "add", "date": "2024-03-15"},
+        {"product_id": "p7020", "action": "remove", "date": "2024-03-15"},
+        {"product_id": "p9015", "action": "add", "date": "2024-03-28"},
+        {"product_id": "p9015", "action": "checkout", "date": "2024-03-28"}
+      ],
+      "preferences": {
+        "categories": ["fashion", "beauty", "accessories"],
+        "brands": ["StylePlus", "BeautyEssence", "FashionTrend"],
+        "price_range": "medium"
+      }
+    },
+    {
+      "id": "u1007",
+      "name": "Fernando Lima",
+      "email": "fernando.lima@example.com",
+      "age": 45,
+      "gender": "M",
+      "location": "Recife",
+      "purchase_history": [
+        {
+          "product_id": "p3005",
+          "date": "2023-09-22",
+          "price": 449.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p5005",
+          "date": "2023-11-08",
+          "price": 249.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p2005",
+          "date": "2024-01-12",
+          "price": 799.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p4015",
+          "date": "2024-02-25",
+          "price": 299.90,
+          "quantity": 1,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p3005", "date": "2023-09-20", "view_time_seconds": 270},
+        {"product_id": "p3010", "date": "2023-09-20", "view_time_seconds": 90},
+        {"product_id": "p5005", "date": "2023-11-06", "view_time_seconds": 240},
+        {"product_id": "p5010", "date": "2023-11-06", "view_time_seconds": 60},
+        {"product_id": "p2005", "date": "2024-01-10", "view_time_seconds": 300},
+        {"product_id": "p2010", "date": "2024-01-10", "view_time_seconds": 120},
+        {"product_id": "p4015", "date": "2024-02-23", "view_time_seconds": 210},
+        {"product_id": "p4020", "date": "2024-02-23", "view_time_seconds": 45},
+        {"product_id": "p1010", "date": "2024-03-18", "view_time_seconds": 180},
+        {"product_id": "p3025", "date": "2024-03-30", "view_time_seconds": 240}
+      ],
+      "cart_events": [
+        {"product_id": "p1010", "action": "add", "date": "2024-03-18"},
+        {"product_id": "p1010", "action": "checkout", "date": "2024-03-18"},
+        {"product_id": "p3025", "action": "add", "date": "2024-03-30"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "home_appliances", "tools"],
+        "brands": ["TechMaster", "HomeComfort", "ToolPro"],
+        "price_range": "high"
+      }
+    },
+    {
+      "id": "u1008",
+      "name": "Juliana Alves",
+      "email": "juliana.alves@example.com",
+      "age": 26,
+      "gender": "F",
+      "location": "Curitiba",
+      "purchase_history": [
+        {
+          "product_id": "p8001",
+          "date": "2023-10-18",
+          "price": 79.90,
+          "quantity": 2,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p6001",
+          "date": "2023-12-10",
+          "price": 89.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p9015",
+          "date": "2024-02-05",
+          "price": 109.90,
+          "quantity": 1,
+          "rating": 3.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p8001", "date": "2023-10-16", "view_time_seconds": 150},
+        {"product_id": "p8005", "date": "2023-10-16", "view_time_seconds": 45},
+        {"product_id": "p6001", "date": "2023-12-08", "view_time_seconds": 180},
+        {"product_id": "p6005", "date": "2023-12-08", "view_time_seconds": 60},
+        {"product_id": "p9015", "date": "2024-02-03", "view_time_seconds": 210},
+        {"product_id": "p9020", "date": "2024-02-03", "view_time_seconds": 90},
+        {"product_id": "p7015", "date": "2024-03-10", "view_time_seconds": 240},
+        {"product_id": "p8025", "date": "2024-03-25", "view_time_seconds": 180}
+      ],
+      "cart_events": [
+        {"product_id": "p7015", "action": "add", "date": "2024-03-10"},
+        {"product_id": "p7015", "action": "remove", "date": "2024-03-10"},
+        {"product_id": "p8025", "action": "add", "date": "2024-03-25"},
+        {"product_id": "p8025", "action": "checkout", "date": "2024-03-25"}
+      ],
+      "preferences": {
+        "categories": ["fashion", "books", "home_decor"],
+        "brands": ["StylePlus", "BookWorld", "HomeArt"],
+        "price_range": "low_medium"
+      }
+    },
+    {
+      "id": "u1009",
+      "name": "Ricardo Nunes",
+      "email": "ricardo.nunes@example.com",
+      "age": 39,
+      "gender": "M",
+      "location": "Fortaleza",
+      "purchase_history": [
+        {
+          "product_id": "p1001",
+          "date": "2023-09-10",
+          "price": 129.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p4001",
+          "date": "2023-11-05",
+          "price": 279.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p3010",
+          "date": "2024-01-20",
+          "price": 349.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p2020",
+          "date": "2024-03-08",
+          "price": 599.90,
+          "quantity": 1,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p1001", "date": "2023-09-08", "view_time_seconds": 210},
+        {"product_id": "p1005", "date": "2023-09-08", "view_time_seconds": 60},
+        {"product_id": "p4001", "date": "2023-11-03", "view_time_seconds": 240},
+        {"product_id": "p4005", "date": "2023-11-03", "view_time_seconds": 90},
+        {"product_id": "p3010", "date": "2024-01-18", "view_time_seconds": 270},
+        {"product_id": "p3015", "date": "2024-01-18", "view_time_seconds": 120},
+        {"product_id": "p2020", "date": "2024-03-06", "view_time_seconds": 300},
+        {"product_id": "p2025", "date": "2024-03-06", "view_time_seconds": 150},
+        {"product_id": "p5020", "date": "2024-03-20", "view_time_seconds": 240},
+        {"product_id": "p1025", "date": "2024-03-28", "view_time_seconds": 180}
+      ],
+      "cart_events": [
+        {"product_id": "p5020", "action": "add", "date": "2024-03-20"},
+        {"product_id": "p5020", "action": "remove", "date": "2024-03-20"},
+        {"product_id": "p1025", "action": "add", "date": "2024-03-28"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "sports", "automotive"],
+        "brands": ["TechMaster", "SportElite", "AutoPrime"],
+        "price_range": "medium_high"
+      }
+    },
+    {
+      "id": "u1010",
+      "name": "Camila Santos",
+      "email": "camila.santos@example.com",
+      "age": 29,
+      "gender": "F",
+      "location": "Manaus",
+      "purchase_history": [
+        {
+          "product_id": "p7001",
+          "date": "2023-10-15",
+          "price": 139.90,
+          "quantity": 1,
+          "rating": 4.5
+        },
+        {
+          "product_id": "p9001",
+          "date": "2023-12-03",
+          "price": 99.90,
+          "quantity": 1,
+          "rating": 4.0
+        },
+        {
+          "product_id": "p6010",
+          "date": "2024-01-28",
+          "price": 189.90,
+          "quantity": 1,
+          "rating": 5.0
+        },
+        {
+          "product_id": "p8020",
+          "date": "2024-03-15",
+          "price": 79.90,
+          "quantity": 2,
+          "rating": 4.5
+        }
+      ],
+      "browsing_history": [
+        {"product_id": "p7001", "date": "2023-10-13", "view_time_seconds": 180},
+        {"product_id": "p7005", "date": "2023-10-13", "view_time_seconds": 45},
+        {"product_id": "p9001", "date": "2023-12-01", "view_time_seconds": 210},
+        {"product_id": "p9005", "date": "2023-12-01", "view_time_seconds": 60},
+        {"product_id": "p6010", "date": "2024-01-26", "view_time_seconds": 240},
+        {"product_id": "p6015", "date": "2024-01-26", "view_time_seconds": 90},
+        {"product_id": "p8020", "date": "2024-03-13", "view_time_seconds": 270},
+        {"product_id": "p8025", "date": "2024-03-13", "view_time_seconds": 120},
+        {"product_id": "p7025", "date": "2024-03-25", "view_time_seconds": 300},
+        {"product_id": "p9025", "date": "2024-03-30", "view_time_seconds": 210}
+      ],
+      "cart_events": [
+        {"product_id": "p7025", "action": "add", "date": "2024-03-25"},
+        {"product_id": "p7025", "action": "checkout", "date": "2024-03-25"},
+        {"product_id": "p9025", "action": "add", "date": "2024-03-30"}
+      ],
+      "preferences": {
+        "categories": ["electronics", "sports", "automotive"],
+        "brands": ["TechMaster", "SportElite", "AutoPrime"],
+        "price_range": "medium_high"
+      }
+    }
+]
+
+}

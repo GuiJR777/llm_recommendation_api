@@ -1,0 +1,271 @@
+{
+  "user_recommendations": [
+    {
+      "user_id": "u1001",
+      "recommendations": [
+        {
+          "product_id": "p1025",
+          "score": 0.89,
+          "reason": "based_on_browsing_history"
+        },
+        {
+          "product_id": "p4025",
+          "score": 0.78,
+          "reason": "similar_to_purchased"
+        },
+        {
+          "product_id": "p3005",
+          "score": 0.75,
+          "reason": "category_preference"
+        },
+        {
+          "product_id": "p2012",
+          "score": 0.72,
+          "reason": "recent_view"
+        },
+        {
+          "product_id": "p5001",
+          "score": 0.68,
+          "reason": "recent_cart_add"
+        }
+      ]
+    },
+    {
+      "user_id": "u1002",
+      "recommendations": [
+        {
+          "product_id": "p7025",
+          "score": 0.91,
+          "reason": "brand_preference"
+        },
+        {
+          "product_id": "p6005",
+          "score": 0.87,
+          "reason": "similar_to_purchased"
+        },
+        {
+          "product_id": "p8015",
+          "score": 0.82,
+          "reason": "recent_cart_add"
+        },
+        {
+          "product_id": "p9005",
+          "score": 0.76,
+          "reason": "category_preference"
+        },
+        {
+          "product_id": "p7016",
+          "score": 0.72,
+          "reason": "recent_view"
+        }
+      ]
+    },
+    {
+      "user_id": "u1003",
+      "recommendations": [
+        {
+          "product_id": "p5015",
+          "score": 0.86,
+          "reason": "recent_cart_checkout"
+        },
+        {
+          "product_id": "p2025",
+          "score": 0.83,
+          "reason": "similar_to_purchased"
+        },
+        {
+          "product_id": "p3010",
+          "score": 0.79,
+          "reason": "recent_cart_add"
+        },
+        {
+          "product_id": "p4015",
+          "score": 0.73,
+          "reason": "category_preference"
+        },
+        {
+          "product_id": "p1025",
+          "score": 0.69,
+          "reason": "recent_view"
+        }
+      ]
+    },
+    {
+      "user_id": "u1004",
+      "recommendations": [
+        {
+          "product_id": "p7005",
+          "score": 0.88,
+          "reason": "recent_cart_checkout"
+        },
+        {
+          "product_id": "p8020",
+          "score": 0.84,
+          "reason": "recent_cart_add"
+        },
+        {
+          "product_id": "p6005",
+          "score": 0.79,
+          "reason": "similar_to_purchased"
+        },
+        {
+          "product_id": "p9015",
+          "score": 0.75,
+          "reason": "category_preference"
+        },
+        {
+          "product_id": "p5008",
+          "score": 0.71,
+          "reason": "user_preference"
+        }
+      ]
+    },
+    {
+      "user_id": "u1005",
+      "recommendations": [
+        {
+          "product_id": "p1030",
+          "score": 0.93,
+          "reason": "recent_cart_checkout"
+        },
+        {
+          "product_id": "p4025",
+          "score": 0.87,
+          "reason": "recent_cart_add"
+        },
+        {
+          "product_id": "p2025",
+          "score": 0.82,
+          "reason": "similar_to_purchased"
+        },
+        {
+          "product_id": "p3015",
+          "score": 0.77,
+          "reason": "category_preference"
+        },
+        {
+          "product_id": "p5010",
+          "score": 0.74,
+          "reason": "user_preference"
+        }
+      ]
+    }
+  ],
+  "product_recommendations": [
+    {
+      "product_id": "p1005",
+      "frequently_bought_together": [
+        "p1015",
+        "p1020",
+        "p2010"
+      ],
+      "similar_items": [
+        "p1001",
+        "p1010",
+        "p1020"
+      ]
+    },
+    {
+      "product_id": "p2001",
+      "frequently_bought_together": [
+        "p2010",
+        "p2015",
+        "p2030"
+      ],
+      "similar_items": [
+        "p2005",
+        "p2020",
+        "p2025"
+      ]
+    },
+    {
+      "product_id": "p3001",
+      "frequently_bought_together": [
+        "p3005",
+        "p3015",
+        "p3020"
+      ],
+      "similar_items": [
+        "p3010",
+        "p3025",
+        "p3015"
+      ]
+    },
+    {
+      "product_id": "p6001",
+      "frequently_bought_together": [
+        "p6005",
+        "p8001",
+        "p8005"
+      ],
+      "similar_items": [
+        "p6010",
+        "p6015",
+        "p6020"
+      ]
+    },
+    {
+      "product_id": "p7001",
+      "frequently_bought_together": [
+        "p7005",
+        "p7010",
+        "p7015"
+      ],
+      "similar_items": [
+        "p7012",
+        "p7020",
+        "p7025"
+      ]
+    }
+  ],
+  "personalized_description_examples": [
+    {
+      "user_id": "u1001",
+      "product_id": "p1025",
+      "personalized_description": "Este Tablet TechMaster Tab é perfeito para você que prioriza eletrônicos de qualidade. Com tela de 10.1 polegadas e processador octa-core, ele complementa perfeitamente seu smartphone e fones TechMaster. Ideal para uso doméstico, assim como os outros produtos da marca que você já aprecia."
+    },
+    {
+      "user_id": "u1002",
+      "product_id": "p7025",
+      "personalized_description": "Este kit de shampoo e condicionador BeautyEssence foi feito pensando em você! Como amante de produtos de beleza de qualidade, vai adorar a formulação com óleo de argan - perfeita para complementar sua rotina de skincare. Combina perfeitamente com os outros produtos da BeautyEssence que você já utiliza."
+    },
+    {
+      "user_id": "u1003",
+      "product_id": "p2025",
+      "personalized_description": "Esta placa de vídeo TechMaster GTX é o upgrade perfeito para seu setup tecnológico. Com 8GB GDDR6 e performance excepcional, combina perfeitamente com os outros componentes TechMaster que você já possui. Ideal para quem, como você, valoriza eletrônicos de alta performance e gosta de investir em produtos de qualidade."
+    },
+    {
+      "user_id": "u1004",
+      "product_id": "p8020",
+      "personalized_description": "Este cachecol FashionTrend é a adição perfeita para seu estilo! Baseado em suas compras anteriores de moda, sabemos que você valoriza peças versáteis. Este cachecol macio e quente complementa perfeitamente os outros itens de sua coleção, especialmente aquela bolsa tote que você adquiriu recentemente."
+    },
+    {
+      "user_id": "u1005",
+      "product_id": "p4025",
+      "personalized_description": "Este kit de ferramentas ToolPro foi selecionado especialmente para você que já possui outros produtos da linha ToolPro. Com 150 peças de alta qualidade, ele complementa perfeitamente sua coleção de ferramentas e é ideal para seus projetos em casa, combinando com seu interesse por eletrônicos e utensílios domésticos."
+    }
+  ],
+  "generic_description_examples": [
+    {
+      "product_id": "p1005",
+      "generic_description": "Estes fones de ouvido Bluetooth TechMaster Pro oferecem som imersivo com cancelamento de ruído ativo. Perfeitos para ouvir música, podcasts ou fazer chamadas, proporcionam até 20 horas de bateria e são resistentes à água. Uma escolha excelente para quem valoriza qualidade de áudio e praticidade."
+    },
+    {
+      "product_id": "p2001",
+      "generic_description": "O Notebook TechMaster Pro é potente e versátil, ideal para trabalho, estudo ou entretenimento. Com processador Intel i7, 16GB de RAM e placa de vídeo dedicada, oferece desempenho excepcional para multitarefas e jogos. Design elegante e construção durável para acompanhar seu dia a dia."
+    },
+    {
+      "product_id": "p6001",
+      "generic_description": "Este vestido casual StylePlus combina conforto e estilo para o dia a dia. Confeccionado em algodão de alta qualidade, oferece caimento perfeito e versatilidade para diversas ocasiões. Disponível em várias cores, é uma peça essencial para qualquer guarda-roupa moderno."
+    },
+    {
+      "product_id": "p7001",
+      "generic_description": "O sabonete facial BeautyEssence é suave e eficaz para todos os tipos de pele. Formulado com extrato de chá verde, limpa profundamente sem ressecar, deixando a pele fresca e revitalizada. Ideal para sua rotina diária de cuidados faciais, ajuda a manter um equilíbrio saudável da pele."
+    },
+    {
+      "product_id": "p9001",
+      "generic_description": "O sofá 3 lugares HomeArt combina design moderno e conforto excepcional. Perfeito para salas de estar, possui estrutura resistente e tecido de alta qualidade, disponível em cores que se adaptam a qualquer decoração. Um investimento em conforto e estilo para seu lar."
+    }
+  ]
+  
+}
