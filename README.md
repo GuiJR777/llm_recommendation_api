@@ -50,6 +50,8 @@ CACHE_TTL_SECONDS=259200  # 72h
 
 Essas variáveis são utilizadas em `utils/config.py` para configurar a conexão e TTL do cache.
 
+Para o cache funcionar você deverá estar rodando o redis na porta apontada na configuração.
+
 
 
 ---
