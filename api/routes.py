@@ -26,7 +26,7 @@ class UserRecommendationResponse(BaseModel):
     "/user-recommendations/{user_id}",
     response_model=UserRecommendationResponse,
     summary="Gerar recomendações para um usuário",
-    description="Retorna uma lista de produtos recomendados com score e razão, com base na estratégia especificada.",  # noqa
+    description="Retorna uma lista de produtos recomendados com score e razão, com base na estratégia especificada. Suporta filtros e paginação.",
     tags=["Recomendações"],
 )
 def get_user_recommendations(
@@ -34,7 +34,16 @@ def get_user_recommendations(
     strategy: str = Query(
         default="history",
         enum=["history", "preference"],
-        description="Estratégia de recomendação a ser usada",
+        description="Estratégia de recomendação",
+    ),
+    min_score: float = Query(
+        default=0.0, ge=0.0, le=1.0, description="Score mínimo de recomendação"
+    ),
+    limit: int = Query(
+        default=10, gt=0, le=100, description="Número máximo de recomendações"
+    ),
+    offset: int = Query(
+        default=0, ge=0, description="Número de itens a pular no início"
     ),
 ):
     try:
@@ -44,13 +53,17 @@ def get_user_recommendations(
             )
         )
 
+        # Filtro e paginação
+        filtered = [r for r in recommendations if r.score >= min_score]
+        paginated = filtered[offset : offset + limit]
+
         return UserRecommendationResponse(
             user_id=user_id,
             recommendations=[
                 RecommendationResponse(
                     product_id=r.product_id, score=r.score, reason=r.reason
                 )
-                for r in recommendations
+                for r in paginated
             ],
         )
 
