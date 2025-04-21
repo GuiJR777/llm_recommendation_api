@@ -11,6 +11,7 @@ class ProductRepository:
         data = next((p for p in self.products if p["id"] == product_id), None)
         if not data:
             raise ValueError("Product not found")
+        data["product_id"] = data.pop("id")
         return Product(**data)
 
     def to_dict(self, product: Product):
