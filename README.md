@@ -1,4 +1,3 @@
-
 # Recommender System with LLM (Mock)
 
 Este projeto é uma solução para um desafio técnico que envolve:
@@ -9,38 +8,25 @@ Este projeto é uma solução para um desafio técnico que envolve:
 - Arquitetura modular seguindo princípios SOLID
 - Estratégias intercambiáveis com uso do padrão Strategy
 - Fallback automático para descrições genéricas
-- Cache com Redis configurável por variáveis de ambiente
-
-## Como rodar
-
-1. Instale as dependências:
-```
-pip install -r requirements.txt
-```
-
-2. Crie um arquivo `.env` na raiz com o seguinte conteúdo:
-```
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_DB=0
-CACHE_TTL_SECONDS=259200  # 72h
-```
-
-3. Inicie o servidor:
-```
-uvicorn main:app --reload
-```
-
-4. Acesse a documentação em: `http://localhost:8000/docs`
+- Cache com Redis (com fallback)
+- Testes unitários com cobertura total usando fakeredis
+- Ambientes separados com `requirements.txt` e `requirements-dev.txt`
 
 ---
 
-## ⚙️ Configuração do Redis com .env
+## 🚀 Como rodar a aplicação
 
-Este projeto utiliza o Redis como mecanismo de cache. As variáveis de ambiente são carregadas a partir de um arquivo `.env`, utilizando `python-dotenv`.
+### 1. Instale as dependências de produção:
+```bash
+pip install -r requirements.txt
+```
 
-### 🔧 Exemplo de `.env`:
+### 2. Para ambiente de desenvolvimento/testes:
+```bash
+pip install -r requirements-dev.txt
+```
 
+### 3. Crie um arquivo `.env` na raiz com o seguinte conteúdo:
 ```dotenv
 REDIS_HOST=localhost
 REDIS_PORT=6379
@@ -48,65 +34,135 @@ REDIS_DB=0
 CACHE_TTL_SECONDS=259200  # 72h
 ```
 
-Essas variáveis são utilizadas em `utils/config.py` para configurar a conexão e TTL do cache.
+### 4. Inicie o servidor FastAPI:
+```bash
+uvicorn main:app --reload
+```
 
-Para o cache funcionar você deverá estar rodando o redis na porta apontada na configuração.
+### 5. Acesse a documentação interativa:
+```
+http://localhost:8000/docs
+```
 
+---
 
+## ⚙️ Configuração do Redis via `.env`
+
+Este projeto utiliza o Redis como mecanismo de cache. As variáveis de ambiente são carregadas via `python-dotenv`.
+
+### Exemplo de `.env`:
+```dotenv
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+CACHE_TTL_SECONDS=259200
+```
+
+> ℹ️ Se o Redis não estiver disponível, o sistema continuará funcionando normalmente, apenas sem cache.
 
 ---
 
 ## ✅ Sobre os testes
 
-Este projeto segue uma abordagem rigorosa para a implementação dos testes unitários. As regras adotadas são:
+Este projeto segue uma abordagem rigorosa para testes unitários com cobertura próxima de 100%. As principais regras adotadas são:
 
-- Cada pasta do projeto possui uma pasta de testes correspondente (`tests/`)
-- Cada arquivo de código possui uma pasta homônima dentro de `tests/`
-- Cada classe do código testado possui um arquivo `.py` próprio para seus testes
-- Cada método da classe testada possui uma **classe `TestX` específica**
-- Cada teste segue a estrutura **AAA (Arrange, Act, Assert)**
-- Os nomes dos testes seguem a convenção:  
-  `test_if_<condicao>_should_<comportamento>` ou `test_should_<comportamento>`
-- **Não é permitido o uso de lógica condicional ou estruturas de controle (if, for, while, etc)** nos testes
-- Linhas com mais de 79 caracteres recebem `# noqa`
-
-Essa padronização facilita a leitura, a rastreabilidade dos testes e garante cobertura próxima de 100%.
+- Estrutura de pastas espelhada (`tests/` acompanha a árvore do projeto)
+- Um arquivo de teste por classe
+- Cada método testado possui uma `TestClass` com múltiplos métodos `test_if_should...`
+- Estilo AAA (Arrange, Act, Assert)
+- Sem lógica condicional (sem `if`, `for`, etc.)
+- Linhas com mais de 79 caracteres usam `# noqa`
+- Cache testado com `fakeredis`, sem necessidade de Redis real
 
 ---
 
 ## 🧠 Estratégias de recomendação para usuários
 
-O sistema de recomendação permite múltiplas estratégias que podem ser trocadas dinamicamente. Atualmente, usamos duas implementações principais:
+O sistema usa o padrão **Strategy** para alternar dinamicamente entre algoritmos de recomendação.
 
 ### 1. `HistoryBasedRecommendationStrategy`
 
-Esta estratégia avalia o comportamento do usuário com base em ações passadas. A pontuação de recomendação é calculada com base em quatro fatores:
+Baseado no comportamento histórico do usuário. A pontuação usa os seguintes pesos:
 
-| Fonte                 | Peso no score |
-|----------------------|---------------|
-| `purchase_history`   | 0.4           |
-| `cart_events`        | 0.3           |
-| `browsing_history`   | 0.2           |
-| `match with preferences` | 0.1     |
+| Fonte                   | Peso |
+|------------------------|------|
+| `purchase_history`     | 0.4  |
+| `cart_events`          | 0.3  |
+| `browsing_history`     | 0.2  |
+| `match with preferences` | 0.1 |
 
-Cada produto é avaliado e recebe pontos por cada evidência de interesse. O score final é **limitado a 1.0** e um campo `reason` descritivo é gerado com base nos fatores que contribuíram.
+O resultado inclui um campo `reason` indicando o motivo da recomendação.
+
+---
 
 ### 2. `PreferenceBasedRecommendationStrategy`
 
-Essa estratégia foca nas **preferências explícitas** do usuário, considerando:
+Baseado nas preferências explícitas do usuário:
 
 - Categorias favoritas
 - Marcas preferidas
-- Tags compatíveis
-- Produtos dentro da **faixa de preço observada no histórico de compras**
+- Tags associadas
+- Faixa de preço observada no histórico
 
-A pontuação também é normalizada com pesos:
+| Fator                  | Peso |
+|------------------------|------|
+| Categoria preferida    | 0.4  |
+| Tags compatíveis       | 0.3  |
+| Marca preferida        | 0.2  |
+| Faixa de preço         | 0.1  |
 
-| Fator                      | Peso |
-|---------------------------|------|
-| Categoria preferida       | 0.4  |
-| Tags compatíveis          | 0.3  |
-| Marca preferida           | 0.2  |
-| Preço dentro da faixa     | 0.1  |
+---
 
-Todos os produtos do catálogo são avaliados e ordenados pela nota final. Produtos que se alinham com múltiplas preferências são priorizados.
+## 🤖 Geração de descrições com IA (LLM)
+
+O sistema possui um serviço dedicado para gerar descrições de produtos utilizando motores LLM intercambiáveis.
+
+### ✨ Endpoint:
+
+```
+GET /product-description/{product_id}?user_id={user_id}&llm={motor}
+```
+
+- `product_id` (obrigatório)
+- `user_id` (opcional)
+- `llm` (default: `emulator`)
+
+### LLMs disponíveis:
+
+| Valor     | Estratégia utilizada                          |
+|-----------|-----------------------------------------------|
+| `emulator` | Mock simulado com `LLMEmulatorStrategy`       |
+| `chatgpt`  | **Em breve**: integração real com OpenAI ChatGPT |
+
+> ⚠️ Caso use um `llm` ainda não implementado, a API retorna `501 - Not Implemented`.
+
+### Exemplo de resposta:
+
+```json
+{
+  "user_id": "u1001",
+  "product_id": "p1025",
+  "personalized_description": "Este Tablet TechMaster Tab é perfeito para você que prioriza eletrônicos de qualidade..."
+}
+```
+
+As descrições são armazenadas em cache automaticamente por 72h.
+
+---
+
+## 🧪 Rodando os testes
+
+```bash
+pytest --disable-warnings
+```
+
+> ✅ Recomendado usar `requirements-dev.txt` para ter suporte ao `fakeredis`, `pytest-asyncio` e outras libs de teste.
+
+---
+
+## 📊 Geração de cobertura de testes
+
+```bash
+pip install pytest-cov
+pytest --cov=services --cov=models --cov=api --cov=cache
+```
