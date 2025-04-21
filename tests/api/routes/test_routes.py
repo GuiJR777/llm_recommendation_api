@@ -57,6 +57,43 @@ class TestUserRecommendations:
         assert response.status_code == 422
 
 
+class TestProductDescriptionRoute:
+    def test_if_should_return_personalized_description(self):
+        response = client.get(
+            "/product-description/p1005?user_id=u1001&llm=emulator"
+        )
+        assert response.status_code == 200
+        data = response.json()
+        assert data["product_id"] == "p1005"
+        assert data["user_id"] == "u1001"
+        assert isinstance(data["personalized_description"], str)
+        assert len(data["personalized_description"]) > 10
+
+    def test_if_should_return_generic_description_without_user(self):
+        response = client.get("/product-description/p1005")
+        assert response.status_code == 200
+        data = response.json()
+        assert data["product_id"] == "p1005"
+        assert data["user_id"] is None
+        assert isinstance(data["personalized_description"], str)
+
+    def test_if_invalid_product_should_return_404(self):
+        response = client.get("/product-description/invalid123")
+        assert response.status_code == 404
+        assert "Produto não encontrado" in response.json()["detail"]
+
+    def test_if_invalid_llm_should_return_422(self):
+        response = client.get("/product-description/p1005?llm=banana")
+        assert response.status_code == 422  # Validação automática do Enum
+
+    def test_if_unimplemented_llm_should_return_501(self):
+        response = client.get("/product-description/p1005?llm=chatgpt")
+        assert response.status_code == 501
+        assert (
+            "ChatGPT ainda não foi implementado" in response.json()["detail"]
+        )
+
+
 class TestCacheEndpoint:
     def test_if_should_clear_cache_successfully(self):
         response = client.delete("/cache")
