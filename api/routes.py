@@ -1,23 +1,40 @@
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 from enum import Enum
 
 from services.recommendation_service.recommendation_service import (
     RecommendationService,
 )
+from services.llm.description_service import ProductDescriptionService
+from services.llm.strategies.llm_emulator import LLMEmulatorStrategy
+
+from repositories.product_repository import ProductRepository
 from models.recommendation import Recommendation
+from models.product import Product
+
 from cache.redis_client import clear_all_cache
 
 router = APIRouter()
+
+# Serviços
 recommendation_service = RecommendationService()
+description_service = ProductDescriptionService(strategy=LLMEmulatorStrategy())
+product_repository = ProductRepository()
 
 
+# Enums
 class StrategyEnum(str, Enum):
     history = "history"
     preference = "preference"
 
 
+class LLMProviderEnum(str, Enum):
+    emulator = "emulator"
+    chatgpt = "chatgpt"
+
+
+# Modelos de resposta
 class RecommendationResponse(BaseModel):
     product_id: str
     score: float
@@ -27,6 +44,15 @@ class RecommendationResponse(BaseModel):
 class UserRecommendationResponse(BaseModel):
     user_id: str
     recommendations: List[RecommendationResponse]
+
+
+class DescriptionResponse(BaseModel):
+    user_id: Optional[str]
+    product_id: str
+    personalized_description: str
+
+
+# ROTAS =======================================================================
 
 
 @router.get(
@@ -78,6 +104,44 @@ def get_user_recommendations(
 
 
 @router.get(
+    "/product-description/{product_id}",
+    response_model=DescriptionResponse,
+    summary="Gerar descrição personalizada de produto",
+    description="Gera uma descrição usando IA baseada no produto e, se informado, no usuário.",
+    tags=["IA / LLM"],
+)
+async def generate_product_description(
+    product_id: str,
+    user_id: Optional[str] = None,
+    llm: LLMProviderEnum = Query(
+        default=LLMProviderEnum.emulator, description="Escolha do motor de LLM"
+    ),
+):
+    try:
+        if llm == LLMProviderEnum.chatgpt:
+            raise HTTPException(
+                status_code=501, detail="ChatGPT ainda não foi implementado"
+            )
+
+        product: Product = product_repository.get_by_id(product_id)
+        description_service.set_strategy(LLMEmulatorStrategy())
+        description = await description_service.describe(product, user_id)
+
+        return DescriptionResponse(
+            user_id=user_id,
+            product_id=product_id,
+            personalized_description=description,
+        )
+
+    except ValueError:
+        raise HTTPException(status_code=404, detail="Produto não encontrado")
+    except HTTPException as http_ex:
+        raise http_ex
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
+
+
+@router.get(
     "/health-check",
     summary="Health check da API",
     description="Endpoint simples para verificar se a API está no ar.",
@@ -90,7 +154,7 @@ def health_check():
 @router.delete(
     "/cache",
     summary="Limpar cache Redis",
-    description="Remove todos os dados armazenados em cache de recomendações",
+    description="Remove todos os dados armazenados em cache de recomendações e descrições",
     tags=["Infraestrutura"],
 )
 def clear_cache():
