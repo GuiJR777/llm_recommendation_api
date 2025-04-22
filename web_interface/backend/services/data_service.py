@@ -1,10 +1,13 @@
+from pathlib import Path
 from utils.file_loader import load_json
 
-DATA_DIR = "data"
+BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent # Retorna o diretório base do projeto # noqa
+DATA_DIR = BASE_DIR / "data"
 
 
 def get_all_users():
-    return load_json(f"{DATA_DIR}/users.json")
+    print("BASE_DIR", BASE_DIR)
+    return load_json(DATA_DIR / "users.json").get("users", [])
 
 
 def get_user_by_id(user_id: str):
@@ -13,7 +16,7 @@ def get_user_by_id(user_id: str):
 
 
 def get_all_products():
-    return load_json(f"{DATA_DIR}/products.json")
+    return load_json(DATA_DIR / "products.json").get("products", [])
 
 
 def get_product_by_id(product_id: str):
