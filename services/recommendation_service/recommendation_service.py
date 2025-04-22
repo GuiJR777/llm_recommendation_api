@@ -45,6 +45,14 @@ class RecommendationService:
             )
             return recommendations
 
+        except ValueError as ve:
+            logger.error(
+                f"[Recommendation Error] user_id={user_id}, strategy={strategy_name} | {str(ve)}"  # noqa
+            )
+            raise ValueError(
+                f"Erro ao processar recomendações para o usuário {user_id}: {str(ve)}"  # noqa
+            )
+
         except Exception as e:
             logger.exception(
                 f"[Recommendation Error] user_id={user_id}, strategy={strategy_name} | {str(e)}"  # noqa

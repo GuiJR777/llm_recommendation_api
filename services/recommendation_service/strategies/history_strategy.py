@@ -12,7 +12,11 @@ class HistoryBasedRecommendationStrategy(RecommendationStrategy):
         self.product_repo = ProductRepository()
 
     def recommend(self, user_id: str) -> list[Recommendation]:
-        user = self.user_repo.get_by_id(user_id)
+        try:
+            user = self.user_repo.get_by_id(user_id)
+        except ValueError:
+            raise ValueError(f"Usuário com ID {user_id} não encontrado.")
+
         purchased_ids = [p["product_id"] for p in user.purchase_history]
         cart_ids = [
             e["product_id"] for e in user.cart_events if e["action"] == "add"
