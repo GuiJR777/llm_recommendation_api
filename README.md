@@ -28,10 +28,16 @@ pip install -r requirements-dev.txt
 
 ### 3. Crie um arquivo `.env` na raiz com o seguinte conteúdo:
 ```dotenv
+# Redis
 REDIS_HOST=localhost
 REDIS_PORT=6379
 REDIS_DB=0
 CACHE_TTL_SECONDS=259200  # 72h
+
+# OpenAI (opcional, apenas se for usar o ChatGPT)
+OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+OPENAI_MODEL=gpt-4o-mini
+
 ```
 
 ### 4. Inicie o servidor FastAPI:
