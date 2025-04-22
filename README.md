@@ -1,6 +1,6 @@
 # 🧠 Recommender System with LLM (Desafio Técnico)
 
-Este projeto é uma solução para um desafio técnico envolvendo:
+Este projeto é uma solução completa envolvendo:
 
 - ✅ Sistema de recomendação com múltiplas estratégias (Strategy Pattern)
 - 🤖 Geração de descrições de produtos usando IA generativa (LLMs)
@@ -9,41 +9,15 @@ Este projeto é uma solução para um desafio técnico envolvendo:
 - 🔍 Logging estruturado
 - ✅ Testes unitários com cobertura quase total
 - 🧪 Ambiente de testes com `fakeredis`, `pytest` e `pytest-asyncio`
+- 🌐 Interface em React com configuração dinâmica de estratégias
 
 ---
 
 ## 🚀 Como rodar a aplicação
 
-### 1. Clone o repositório:
-```bash
-git clone https://github.com/GuiJR777/llm_recommendation_api.git
-cd llm_recommendation_api
-```
+Clone esse repositório e depois:
 
-### 2. Verifique a versão do Python:
-Este projeto requer **Python 3.10 ou superior**.
-```bash
-python --version
-```
-
-### 3. Crie e ative um ambiente virtual:
-```bash
-python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate   # Windows
-```
-
-### 4. Instale as dependências de produção:
-```bash
-pip install -r requirements.txt
-```
-
-### 5. Ou instale dependências de desenvolvimento/teste:
-```bash
-pip install -r requirements-dev.txt
-```
-
-### 6. Configure variáveis de ambiente em um arquivo `.env`:
+### Configure variáveis de ambiente em um arquivo `.env`:
 ```dotenv
 # Redis
 REDIS_HOST=localhost
@@ -56,22 +30,76 @@ OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o-mini
 ```
 
-### 7. Inicie o servidor local:
+Use **três terminais separados** para rodar cada serviço:
+
+---
+
+### 🔵 1. API Principal (LLM + Recomendação)
+
 ```bash
-uvicorn main:app --reload
+cd llm_recommendation_api
+python -m venv venv
+source venv/bin/activate  # ou .\venv\Scripts\activate no Windows
+pip install -r requirements.txt
+uvicorn main:app --reload --port 8000
 ```
 
-### 8. Acesse a documentação da API:
-- 📘 Swagger UI: http://localhost:8000/docs
-- 📄 OpenAPI JSON: http://localhost:8000/openapi.json
+> Acesse: [http://localhost:8000/docs](http://localhost:8000/docs)
+
+---
+
+### 🟢 2. API BFF (Backend for Frontend)
+
+```bash
+source venv/bin/activate
+cd web_interface/backend
+uvicorn main:app --reload --port 3001
+```
+
+> Essa API serve os dados da pasta `data/` para o frontend
+
+---
+
+### 🟣 3. Frontend React
+
+```bash
+cd web_interface/frontend
+npm install
+npm run dev
+```
+
+> Acesse: [http://localhost:5173](http://localhost:5173)
+
+---
+
+## ⚙️ Estratégias configuráveis
+
+Na **navbar** é possível escolher dinamicamente:
+
+- Estratégia de recomendação: `history` ou `preference`
+- Motor de descrição: `emulator` ou `chatgpt`
+
+Essas configurações afetam diretamente as chamadas de API do sistema.
+
+---
+
+## 🌐 Endpoints das APIs
+
+### API Principal (porta 8000)
+- `GET /user-recommendations/{user_id}?strategy=...`
+- `GET /product-description/{product_id}?user_id=...&llm=...`
+
+### API BFF (porta 3001)
+- `GET /api/users`
+- `GET /api/users/{user_id}`
+- `GET /api/products`
+- `GET /api/products/{product_id}`
 
 ---
 
 ## ⚙️ Funcionalidades principais
 
 ### 🔁 Estratégias de Recomendação (Strategy Pattern)
-
-O sistema permite alternar entre múltiplas estratégias de recomendação:
 
 #### `HistoryBasedRecommendationStrategy`
 
@@ -95,9 +123,10 @@ O sistema permite alternar entre múltiplas estratégias de recomendação:
 
 ### 🤖 Geração de descrições com IA
 
-As descrições são geradas por uma LLM (IA Generativa), com cache por 24h via Redis.
+As descrições são geradas por um LLM, com cache automático de 24h via Redis.
 
 #### Endpoint:
+
 ```
 GET /product-description/{product_id}?user_id={user_id}&llm={motor}
 ```
@@ -124,9 +153,10 @@ GET /product-description/{product_id}?user_id={user_id}&llm={motor}
 pytest --disable-warnings
 ```
 
-> Testes utilizam `fakeredis` para simular Redis sem dependência externa.
+> Testes usam `fakeredis` para simular Redis local.
 
-#### Geração de cobertura:
+#### Cobertura:
+
 ```bash
 pytest --cov=services --cov=models --cov=api --cov=cache
 ```
@@ -146,9 +176,9 @@ pytest --cov=services --cov=models --cov=api --cov=cache
 
 ## 💬 Considerações
 
-O projeto segue princípios **SOLID**, separação de responsabilidades, e foi projetado com foco em:
+O projeto segue princípios **SOLID**, separação de responsabilidades e foi projetado com foco em:
 
-- 🔁 Extensibilidade (novas estratégias de recomendação ou LLMs)
+- 🔁 Extensibilidade (novas estratégias ou LLMs)
 - 🧪 Testabilidade (mock e cobertura)
 - 🧘 Manutenibilidade (modular e limpo)
 
@@ -157,23 +187,35 @@ O projeto segue princípios **SOLID**, separação de responsabilidades, e foi p
 ## ✨ Diferenciais
 
 - ✅ Cache com TTL customizável
-- ✅ Fallback automático para IA e recomendações
-- ✅ Logging estruturado para auditoria de chamadas ao LLM
-- ✅ Documentação Swagger pronta para API pública
+- ✅ Fallback automático
+- ✅ Logging estruturado
+- ✅ Documentação Swagger
+- ✅ Interface em React integrada com as APIs
 
 ---
 
 ## 📁 Estrutura do projeto
 
 ```
-.
-├── api/                  # Rotas e endpoints
-├── services/             # Lógicas de negócio (Recomendações e LLM)
-├── models/               # Entidades Pydantic
-├── repositories/         # Acesso a dados fake
-├── cache/                # Cache Redis + Decorators
-├── tests/                # Testes unitários
-├── main.py               # Entry point
-├── requirements.txt
-└── .env
+llm_recommendation_api/
+├── main.py
+├── models/
+├── services/
+├── strategies/
+├── data/
+└── tests/
+
+web_interface/
+├── backend/
+│   └── FastAPI (porta 3001)
+├── frontend/
+│   └── React + Vite (porta 5173)
 ```
+
+---
+
+## ✅ Pré-requisitos
+
+- Python 3.10+
+- Node.js 16+
+- Redis (opcional — fallback automático)
