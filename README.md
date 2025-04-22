@@ -1,16 +1,14 @@
-# Recommender System with LLM (Mock)
+# 🧠 Recommender System with LLM (Desafio Técnico)
 
-Este projeto é uma solução para um desafio técnico que envolve:
+Este projeto é uma solução para um desafio técnico envolvendo:
 
-- Sistema de recomendação baseado em histórico de comportamento do usuário
-- Integração com IA Generativa via simulador LLM
-- API RESTful com FastAPI
-- Arquitetura modular seguindo princípios SOLID
-- Estratégias intercambiáveis com uso do padrão Strategy
-- Fallback automático para descrições genéricas
-- Cache com Redis (com fallback)
-- Testes unitários com cobertura total usando fakeredis
-- Ambientes separados com `requirements.txt` e `requirements-dev.txt`
+- ✅ Sistema de recomendação com múltiplas estratégias (Strategy Pattern)
+- 🤖 Geração de descrições de produtos usando IA generativa (LLMs)
+- 🚀 API RESTful com FastAPI e documentação automática (Swagger)
+- 📦 Cache inteligente com Redis e fallback
+- 🔍 Logging estruturado
+- ✅ Testes unitários com cobertura quase total
+- 🧪 Ambiente de testes com `fakeredis`, `pytest` e `pytest-asyncio`
 
 ---
 
@@ -21,12 +19,12 @@ Este projeto é uma solução para um desafio técnico que envolve:
 pip install -r requirements.txt
 ```
 
-### 2. Para ambiente de desenvolvimento/testes:
+### 2. Instale dependências de desenvolvimento/teste:
 ```bash
 pip install -r requirements-dev.txt
 ```
 
-### 3. Crie um arquivo `.env` na raiz com o seguinte conteúdo:
+### 3. Configure variáveis de ambiente em um arquivo `.env`:
 ```dotenv
 # Redis
 REDIS_HOST=localhost
@@ -34,141 +32,129 @@ REDIS_PORT=6379
 REDIS_DB=0
 CACHE_TTL_SECONDS=259200  # 72h
 
-# OpenAI (opcional, apenas se for usar o ChatGPT)
+# OpenAI (opcional)
 OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o-mini
-
 ```
 
-### 4. Inicie o servidor FastAPI:
+### 4. Inicie o servidor local:
 ```bash
 uvicorn main:app --reload
 ```
 
-### 5. Acesse a documentação interativa:
-```
-http://localhost:8000/docs
-```
+### 5. Acesse a documentação da API:
+- 📘 Swagger UI: http://localhost:8000/docs
+- 📄 OpenAPI JSON: http://localhost:8000/openapi.json
 
 ---
 
-## ⚙️ Configuração do Redis via `.env`
+## ⚙️ Funcionalidades principais
 
-Este projeto utiliza o Redis como mecanismo de cache. As variáveis de ambiente são carregadas via `python-dotenv`.
+### 🔁 Estratégias de Recomendação (Strategy Pattern)
 
-### Exemplo de `.env`:
-```dotenv
-REDIS_HOST=localhost
-REDIS_PORT=6379
-REDIS_DB=0
-CACHE_TTL_SECONDS=259200
-```
+O sistema permite alternar entre múltiplas estratégias de recomendação:
 
-> ℹ️ Se o Redis não estiver disponível, o sistema continuará funcionando normalmente, apenas sem cache.
+#### `HistoryBasedRecommendationStrategy`
 
----
+| Fonte                     | Peso |
+|--------------------------|------|
+| Histórico de compras     | 0.4  |
+| Eventos no carrinho      | 0.3  |
+| Histórico de navegação   | 0.2  |
+| Afinidade com preferências | 0.1 |
 
-## ✅ Sobre os testes
+#### `PreferenceBasedRecommendationStrategy`
 
-Este projeto segue uma abordagem rigorosa para testes unitários com cobertura próxima de 100%. As principais regras adotadas são:
-
-- Estrutura de pastas espelhada (`tests/` acompanha a árvore do projeto)
-- Um arquivo de teste por classe
-- Cada método testado possui uma `TestClass` com múltiplos métodos `test_if_should...`
-- Estilo AAA (Arrange, Act, Assert)
-- Sem lógica condicional (sem `if`, `for`, etc.)
-- Linhas com mais de 79 caracteres usam `# noqa`
-- Cache testado com `fakeredis`, sem necessidade de Redis real
-
----
-
-## 🧠 Estratégias de recomendação para usuários
-
-O sistema usa o padrão **Strategy** para alternar dinamicamente entre algoritmos de recomendação.
-
-### 1. `HistoryBasedRecommendationStrategy`
-
-Baseado no comportamento histórico do usuário. A pontuação usa os seguintes pesos:
-
-| Fonte                   | Peso |
-|------------------------|------|
-| `purchase_history`     | 0.4  |
-| `cart_events`          | 0.3  |
-| `browsing_history`     | 0.2  |
-| `match with preferences` | 0.1 |
-
-O resultado inclui um campo `reason` indicando o motivo da recomendação.
-
----
-
-### 2. `PreferenceBasedRecommendationStrategy`
-
-Baseado nas preferências explícitas do usuário:
-
-- Categorias favoritas
-- Marcas preferidas
-- Tags associadas
-- Faixa de preço observada no histórico
-
-| Fator                  | Peso |
+| Fator                   | Peso |
 |------------------------|------|
 | Categoria preferida    | 0.4  |
-| Tags compatíveis       | 0.3  |
+| Tags associadas        | 0.3  |
 | Marca preferida        | 0.2  |
 | Faixa de preço         | 0.1  |
 
 ---
 
-## 🤖 Geração de descrições com IA (LLM)
+### 🤖 Geração de descrições com IA
 
-O sistema possui um serviço dedicado para gerar descrições de produtos utilizando motores LLM intercambiáveis.
+As descrições são geradas por uma LLM (IA Generativa), com cache por 24h via Redis.
 
-### ✨ Endpoint:
-
+#### Endpoint:
 ```
 GET /product-description/{product_id}?user_id={user_id}&llm={motor}
 ```
 
+#### Parâmetros:
 - `product_id` (obrigatório)
-- `user_id` (opcional)
-- `llm` (default: `emulator`)
+- `user_id` (opcional) — para personalização
+- `llm`: `emulator` (mock) ou `chatgpt` (real via OpenAI)
 
-### LLMs disponíveis:
-
-| Valor     | Estratégia utilizada                          |
-|-----------|-----------------------------------------------|
-| `emulator` | Mock simulado com `LLMEmulatorStrategy`       |
-| `chatgpt`  | **Em breve**: integração real com OpenAI ChatGPT |
-
-> ⚠️ Caso use um `llm` ainda não implementado, a API retorna `501 - Not Implemented`.
-
-### Exemplo de resposta:
-
+#### Exemplo de resposta:
 ```json
 {
   "user_id": "u1001",
   "product_id": "p1025",
-  "personalized_description": "Este Tablet TechMaster Tab é perfeito para você que prioriza eletrônicos de qualidade..."
+  "personalized_description": "Este Tablet TechMaster Tab é perfeito para quem valoriza performance com praticidade..."
 }
 ```
 
-As descrições são armazenadas em cache automaticamente por 72h.
-
 ---
 
-## 🧪 Rodando os testes
+### 🧪 Testes
 
 ```bash
 pytest --disable-warnings
 ```
 
-> ✅ Recomendado usar `requirements-dev.txt` para ter suporte ao `fakeredis`, `pytest-asyncio` e outras libs de teste.
+> Testes utilizam `fakeredis` para simular Redis sem dependência externa.
+
+#### Geração de cobertura:
+```bash
+pytest --cov=services --cov=models --cov=api --cov=cache
+```
 
 ---
 
-## 📊 Geração de cobertura de testes
+### 🛠️ Endpoints principais
 
-```bash
-pip install pytest-cov
-pytest --cov=services --cov=models --cov=api --cov=cache
+| Método | Rota                                | Descrição                                         |
+|--------|-------------------------------------|--------------------------------------------------|
+| GET    | `/user-recommendations/{user_id}`  | Lista produtos recomendados para um usuário     |
+| GET    | `/product-description/{product_id}`| Gera descrição com IA para o produto            |
+| GET    | `/health-check`                    | Verifica status da API                          |
+| DELETE | `/cache`                           | Limpa todos os dados de cache                   |
+
+---
+
+## 💬 Considerações
+
+O projeto segue princípios **SOLID**, separação de responsabilidades, e foi projetado com foco em:
+
+- 🔁 Extensibilidade (novas estratégias de recomendação ou LLMs)
+- 🧪 Testabilidade (mock e cobertura)
+- 🧘 Manutenibilidade (modular e limpo)
+
+---
+
+## ✨ Diferenciais
+
+- ✅ Cache com TTL customizável
+- ✅ Fallback automático para IA e recomendações
+- ✅ Logging estruturado para auditoria de chamadas ao LLM
+- ✅ Documentação Swagger pronta para API pública
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+.
+├── api/                  # Rotas e endpoints
+├── services/             # Lógicas de negócio (Recomendações e LLM)
+├── models/               # Entidades Pydantic
+├── repositories/         # Acesso a dados fake
+├── cache/                # Cache Redis + Decorators
+├── tests/                # Testes unitários
+├── main.py               # Entry point
+├── requirements.txt
+└── .env
 ```
