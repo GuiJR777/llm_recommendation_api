@@ -107,6 +107,6 @@ class TestLLMEmulatorStrategyGenerateDescription:
 
         assert isinstance(result, str)
         assert (
-            "não foi possível gerar uma descrição para este produto no momento."
+            "fones de ouvido bluetooth techmaster pro é um produto da categoria áudio que oferece som imersivo com cancelamento de ruído. ideal para quem busca qualidade e praticidade."
             in result.lower()
         )
