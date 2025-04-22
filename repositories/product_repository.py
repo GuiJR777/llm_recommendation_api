@@ -3,7 +3,7 @@ from models.product import Product
 
 
 class ProductRepository:
-    def __init__(self, path="data/products.json"):
+    def __init__(self, path="web_interface/backend/data/products.json"):
         with open(path, encoding="utf-8") as f:
             self.products = json.load(f)["products"]
 

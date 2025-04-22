@@ -3,7 +3,7 @@ from models.user import User
 
 
 class UserRepository:
-    def __init__(self, path="data/users.json"):
+    def __init__(self, path="web_interface/backend/data/users.json"):
         with open(path, encoding="utf-8") as f:
             self.users = json.load(f)["users"]
 
