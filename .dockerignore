@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual envs
+venv/
+.venv/
+
+# VSCode
+.vscode/
+
+# Node
+node_modules/
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Frontend builds
+dist/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Outros
+*.pdf
+*.zip
+*.tar.gz
+*.egg-info
+.cache/
+.idea/

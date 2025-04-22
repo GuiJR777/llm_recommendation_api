@@ -1,0 +1,38 @@
+services:
+  llm_api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: llm_api
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+
+  bff_api:
+    build:
+      context: .
+      dockerfile: web_interface/backend/Dockerfile
+    container_name: bff_api
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./web_interface/backend:/app
+
+  frontend:
+    build:
+      context: ./web_interface/frontend
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "80:80"
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
