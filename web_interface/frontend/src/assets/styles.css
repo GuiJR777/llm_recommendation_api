@@ -1,0 +1,42 @@
+
+:root {
+  --primary-color: #004c97;
+  --secondary-color: #e6f0f8;
+  --text-color: #212121;
+  --bg-color: #f4f6f9;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1, h2 {
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003b7a;
+}

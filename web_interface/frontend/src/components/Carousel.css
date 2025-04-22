@@ -1,0 +1,16 @@
+
+.carousel {
+  margin-bottom: 2rem;
+}
+
+.carousel-track {
+  display: flex;
+  overflow-x: auto;
+  gap: 1rem;
+  padding: 1rem 0;
+}
+
+.carousel-item {
+  flex: 0 0 auto;
+  width: 200px;
+}
