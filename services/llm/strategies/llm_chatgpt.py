@@ -28,6 +28,11 @@ class LLMChatGPTStrategy(LLMStrategy):
                 else self._build_generic_prompt(product)
             )
 
+            logger.info(
+                f"[ChatGPT Request] model={self.model}, user_id={user_id}, product_id={product.id}"  # noqa
+            )
+            logger.debug(f"[ChatGPT Prompt] {user_msg}")
+
             response = await self.client.chat.completions.create(
                 model=self.model,
                 messages=[
@@ -41,10 +46,18 @@ class LLMChatGPTStrategy(LLMStrategy):
                 max_tokens=300,
             )
 
-            return response.choices[0].message.content.strip()
+            message = response.choices[0].message.content.strip()
+            logger.info(
+                f"[ChatGPT Response] product_id={product.id}, user_id={user_id}"  # noqa
+            )
+            logger.debug(f"[ChatGPT Message] {message}")
+            return message
 
         except Exception as e:
-            logger.error(f"[ChatGPT] Erro ao gerar descrição: {e}")
+            logger.exception(
+                f"[ChatGPT Error] product_id={product.id}, user_id={user_id}, error={e}"  # noqa
+            )
+            logger.warning("[ChatGPT Fallback] Usando descrição genérica.")
             return self._fallback_description(product)
 
     def _build_generic_prompt(self, product: Product) -> str:
@@ -92,6 +105,6 @@ class LLMChatGPTStrategy(LLMStrategy):
 
     def _fallback_description(self, product: Product) -> str:
         return (
-            f"{product.name} é um produto da categoria {product.category} que oferece "
-            f"{product.description}. Ideal para quem busca qualidade e praticidade."
+            f"{product.name} é um produto da categoria {product.category} que oferece " # noqa
+            f"{product.description}. Ideal para quem busca qualidade e praticidade." # noqa
         )
