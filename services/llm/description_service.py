@@ -24,11 +24,26 @@ class ProductDescriptionService:
     async def describe(
         self, product: Product, user_id: Optional[str] = None
     ) -> str:
+        logger.info(
+            f"[Description Start] LLM={self.strategy.__class__.__name__}, product_id={product.id}, user_id={user_id}"  # noqa
+        )
+
         try:
-            return await self.strategy.generate_description(product, user_id)
-        except Exception as e:
-            logger.error(
-                f"[{self.strategy.__class__.__name__}] Erro ao gerar descrição: {str(e)}"
+            description = await self.strategy.generate_description(
+                product, user_id
             )
-            # Fallback simples
-            return f"O produto {product.name} é uma excelente escolha para quem busca {product.category.lower()}."
+            logger.info(
+                f"[Description Success] product_id={product.id}, user_id={user_id}"  # noqa
+            )
+            return description
+        except Exception as e:
+            logger.exception(
+                f"[Description Error] product_id={product.id}, user_id={user_id} | {str(e)}"  # noqa
+            )
+            logger.warning(
+                "[Description Fallback] Using static generic description."
+            )
+            return (
+                f"O produto {product.name} é uma excelente escolha para quem busca "  # noqa
+                f"{product.category.lower()}."
+            )
