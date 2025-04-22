@@ -105,6 +105,6 @@ class LLMChatGPTStrategy(LLMStrategy):
 
     def _fallback_description(self, product: Product) -> str:
         return (
-            f"{product.name} é um produto da categoria {product.category} que oferece " # noqa
-            f"{product.description}. Ideal para quem busca qualidade e praticidade." # noqa
+            f"{product.name} é um produto da categoria {product.category} que oferece "  # noqa
+            f"{product.description}. Ideal para quem busca qualidade e praticidade."  # noqa
         )
