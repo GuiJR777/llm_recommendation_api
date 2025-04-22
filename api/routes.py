@@ -8,6 +8,7 @@ from services.recommendation_service.recommendation_service import (
 )
 from services.llm.description_service import ProductDescriptionService
 from services.llm.strategies.llm_emulator import LLMEmulatorStrategy
+from services.llm.strategies.llm_chatgpt import LLMChatGPTStrategy
 
 from repositories.product_repository import ProductRepository
 from models.recommendation import Recommendation
@@ -20,6 +21,8 @@ router = APIRouter()
 # Serviços
 recommendation_service = RecommendationService()
 description_service = ProductDescriptionService(strategy=LLMEmulatorStrategy())
+
+# Repositórios
 product_repository = ProductRepository()
 
 
@@ -64,18 +67,10 @@ class DescriptionResponse(BaseModel):
 )
 def get_user_recommendations(
     user_id: str,
-    strategy: StrategyEnum = Query(
-        default=StrategyEnum.history, description="Estratégia de recomendação"
-    ),
-    min_score: float = Query(
-        default=0.0, ge=0.0, le=1.0, description="Score mínimo de recomendação"
-    ),
-    limit: int = Query(
-        default=10, gt=0, le=100, description="Número máximo de recomendações"
-    ),
-    offset: int = Query(
-        default=0, ge=0, description="Número de itens a pular no início"
-    ),
+    strategy: StrategyEnum = Query(default=StrategyEnum.history),
+    min_score: float = Query(default=0.0, ge=0.0, le=1.0),
+    limit: int = Query(default=10, gt=0, le=100),
+    offset: int = Query(default=0, ge=0),
 ):
     try:
         recommendations: list[Recommendation] = (
@@ -91,7 +86,9 @@ def get_user_recommendations(
             user_id=user_id,
             recommendations=[
                 RecommendationResponse(
-                    product_id=r.product_id, score=r.score, reason=r.reason
+                    product_id=r.product_id,
+                    score=r.score,
+                    reason=r.reason,
                 )
                 for r in paginated
             ],
@@ -113,18 +110,21 @@ def get_user_recommendations(
 async def generate_product_description(
     product_id: str,
     user_id: Optional[str] = None,
-    llm: LLMProviderEnum = Query(
-        default=LLMProviderEnum.emulator, description="Escolha do motor de LLM"
-    ),
+    llm: LLMProviderEnum = Query(default=LLMProviderEnum.emulator),
 ):
     try:
-        if llm == LLMProviderEnum.chatgpt:
-            raise HTTPException(
-                status_code=501, detail="ChatGPT ainda não foi implementado"
-            )
+        # Define a estratégia do motor de LLM
+        match llm:
+            case LLMProviderEnum.emulator:
+                description_service.set_strategy("emulator")
+            case LLMProviderEnum.chatgpt:
+                description_service.set_strategy("chatgpt")
+            case _:
+                raise HTTPException(
+                    status_code=501, detail="LLM não implementado"
+                )
 
         product: Product = product_repository.get_by_id(product_id)
-        description_service.set_strategy(LLMEmulatorStrategy())
         description = await description_service.describe(product, user_id)
 
         return DescriptionResponse(
@@ -141,12 +141,7 @@ async def generate_product_description(
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
-@router.get(
-    "/health-check",
-    summary="Health check da API",
-    description="Endpoint simples para verificar se a API está no ar.",
-    tags=["Infraestrutura"],
-)
+@router.get("/health-check", tags=["Infraestrutura"])
 def health_check():
     return {"status": "ok"}
 
