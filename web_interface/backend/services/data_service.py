@@ -1,7 +1,9 @@
 from pathlib import Path
 from utils.file_loader import load_json
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent.parent # Retorna o diretório base do projeto # noqa
+BASE_DIR = (
+    Path(__file__).resolve().parent.parent.parent.parent
+)  # Retorna o diretório base do projeto # noqa
 DATA_DIR = BASE_DIR / "data"
 
 
