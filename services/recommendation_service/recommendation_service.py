@@ -1,6 +1,3 @@
-from services.recommendation_service.strategies.base_strategy import (
-    RecommendationStrategy,
-)
 from services.recommendation_service.strategies.history_strategy import (
     HistoryBasedRecommendationStrategy,
 )
@@ -17,21 +14,39 @@ class RecommendationService:
         self.strategy = HistoryBasedRecommendationStrategy()
 
     def set_strategy(self, strategy_name: str):
-        strategies: dict[str, RecommendationStrategy] = {
-            "history": HistoryBasedRecommendationStrategy(),
-            "preference": PreferenceBasedRecommendationStrategy(),
-        }
-        self.strategy = strategies.get(
-            strategy_name, HistoryBasedRecommendationStrategy()
+        match strategy_name:
+            case "preference":
+                self.strategy = PreferenceBasedRecommendationStrategy()
+            case "history":
+                self.strategy = HistoryBasedRecommendationStrategy()
+            case _:
+                logger.warning(
+                    f"[Recommendation Warning] Estratégia '{strategy_name}' não reconhecida. Usando padrão: history"  # noqa
+                )
+                self.strategy = HistoryBasedRecommendationStrategy()
+
+        logger.info(
+            f"[Recommendation Strategy] Estratégia definida: {self.strategy.__class__.__name__}"  # noqa
         )
-        logger.info(f"Estratégia definida: {self.strategy.__class__.__name__}")
 
     @cache_result(factory=Recommendation)
     def recommend_for_user(
         self, user_id: str, strategy_name: str = "history"
     ) -> list[Recommendation]:
         logger.info(
-            f"Gerando recomendações para usuário '{user_id}' com estratégia '{strategy_name}'"  # noqa
+            f"[Recommendation Start] user_id={user_id}, strategy={strategy_name}"  # noqa
         )
-        self.set_strategy(strategy_name)
-        return self.strategy.recommend(user_id)
+
+        try:
+            self.set_strategy(strategy_name)
+            recommendations = self.strategy.recommend(user_id)
+            logger.info(
+                f"[Recommendation Success] user_id={user_id}, total={len(recommendations)} recommendation(s)."  # noqa
+            )
+            return recommendations
+
+        except Exception as e:
+            logger.exception(
+                f"[Recommendation Error] user_id={user_id}, strategy={strategy_name} | {str(e)}"  # noqa
+            )
+            return []
