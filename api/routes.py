@@ -9,11 +9,9 @@ from services.recommendation_service.recommendation_service import (
 from services.llm.description_service import ProductDescriptionService
 from services.llm.strategies.llm_emulator import LLMEmulatorStrategy
 from services.llm.strategies.llm_chatgpt import LLMChatGPTStrategy
-
 from repositories.product_repository import ProductRepository
 from models.recommendation import Recommendation
 from models.product import Product
-
 from cache.redis_client import clear_all_cache
 
 router = APIRouter()
@@ -26,7 +24,7 @@ description_service = ProductDescriptionService(strategy=LLMEmulatorStrategy())
 product_repository = ProductRepository()
 
 
-# Enums
+# Enums para parâmetros da URL
 class StrategyEnum(str, Enum):
     history = "history"
     preference = "preference"
@@ -37,7 +35,7 @@ class LLMProviderEnum(str, Enum):
     chatgpt = "chatgpt"
 
 
-# Modelos de resposta
+# Schemas de resposta
 class RecommendationResponse(BaseModel):
     product_id: str
     score: float
@@ -55,14 +53,22 @@ class DescriptionResponse(BaseModel):
     personalized_description: str
 
 
-# ROTAS =======================================================================
+# ROTAS =========================================================================
 
 
 @router.get(
     "/user-recommendations/{user_id}",
     response_model=UserRecommendationResponse,
-    summary="Gerar recomendações para um usuário",
-    description="Retorna uma lista de produtos recomendados com score e razão, com base na estratégia especificada. Suporta filtros e paginação.",
+    summary="Recomendações para um usuário",
+    description="""
+Gera uma lista de recomendações de produtos com base no usuário informado.
+
+Você pode escolher entre duas estratégias:
+- **history**: baseada no histórico de compras
+- **preference**: baseada nas preferências explícitas do usuário
+
+Além disso, é possível filtrar por `min_score`, e paginar com `limit` e `offset`.
+""",
     tags=["Recomendações"],
 )
 def get_user_recommendations(
@@ -78,7 +84,6 @@ def get_user_recommendations(
                 user_id=user_id, strategy_name=strategy.value
             )
         )
-
         filtered = [r for r in recommendations if r.score >= min_score]
         paginated = filtered[offset : offset + limit]
 
@@ -93,7 +98,6 @@ def get_user_recommendations(
                 for r in paginated
             ],
         )
-
     except ValueError as e:
         raise HTTPException(status_code=404, detail=str(e))
     except Exception as e:
@@ -103,8 +107,13 @@ def get_user_recommendations(
 @router.get(
     "/product-description/{product_id}",
     response_model=DescriptionResponse,
-    summary="Gerar descrição personalizada de produto",
-    description="Gera uma descrição usando IA baseada no produto e, se informado, no usuário.",
+    summary="Descrição personalizada de produto com IA",
+    description="""
+Gera uma descrição detalhada de um produto utilizando IA Generativa.
+
+Se um `user_id` for informado, a descrição será personalizada com base no perfil do usuário.
+Você também pode escolher qual motor de IA utilizar (emulador local ou ChatGPT via OpenAI).
+""",
     tags=["IA / LLM"],
 )
 async def generate_product_description(
@@ -113,7 +122,6 @@ async def generate_product_description(
     llm: LLMProviderEnum = Query(default=LLMProviderEnum.emulator),
 ):
     try:
-        # Define a estratégia do motor de LLM
         match llm:
             case LLMProviderEnum.emulator:
                 description_service.set_strategy("emulator")
@@ -141,15 +149,20 @@ async def generate_product_description(
         raise HTTPException(status_code=500, detail=f"Erro interno: {str(e)}")
 
 
-@router.get("/health-check", tags=["Infraestrutura"])
+@router.get(
+    "/health-check",
+    tags=["Infraestrutura"],
+    summary="Verificar se o serviço está online",
+    description="Retorna o status de saúde da API.",
+)
 def health_check():
     return {"status": "ok"}
 
 
 @router.delete(
     "/cache",
-    summary="Limpar cache Redis",
-    description="Remove todos os dados armazenados em cache de recomendações e descrições",
+    summary="Limpar cache",
+    description="Remove todo o conteúdo armazenado em cache (recomendações e descrições geradas).",
     tags=["Infraestrutura"],
 )
 def clear_cache():
