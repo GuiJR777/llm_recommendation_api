@@ -1,51 +1,69 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import { getUserById, getProductById, getRecommendations } from '../services/api';
+import {
+  getUserById,
+  getRecommendations,
+  getProductById
+} from '../services/api';
+import { StrategyContext } from '../context/StrategyContext';
+
 import Carousel from '../components/Carousel';
 import ProductCard from '../components/ProductCard';
 
 function UserPage() {
   const { id } = useParams();
   const [user, setUser] = useState(null);
-  const [products, setProducts] = useState([]);
   const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(false);
+
+  const { recommendationStrategy } = useContext(StrategyContext);
 
   useEffect(() => {
     getUserById(id).then(setUser);
   }, [id]);
 
-  useEffect(() => {
-    if (user) {
-      const productIds = [
-        ...user.purchase_history.map(p => p.product_id),
-        ...user.browsing_history.map(p => p.product_id),
-        ...user.cart_events.map(p => p.product_id)
-      ];
-      const unique = [...new Set(productIds)];
-      Promise.all(unique.map(getProductById)).then(setProducts);
-    }
-  }, [user]);
+  const gerarRecomendacoes = async () => {
+    setLoading(true);
+    try {
+      const result = await getRecommendations(id, recommendationStrategy);
+      const productIds = (result.recommendations || []).map(r => r.product_id);
 
-  const gerarRecomendacoes = () => {
-    getRecommendations(id).then(setRecommendations);
+      const fullProducts = await Promise.all(productIds.map(getProductById));
+      setRecommendations(fullProducts);
+    } catch (error) {
+      console.error("Erro ao buscar recomendações:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="container">
-      {user && <>
-        <h1>{user.name}</h1>
-        <p>Email: {user.email}</p>
-        <p>Localização: {user.location}</p>
+      {user && (
+        <>
+          <h1>{user.name}</h1>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Idade:</strong> {user.age}</p>
+          <p><strong>Localização:</strong> {user.location}</p>
 
-        <Carousel title="Histórico de Compras / Navegação / Carrinho" items={products} renderItem={(p) => <ProductCard product={p} />} />
+          <h2>Preferências</h2>
+          <p><strong>Categorias:</strong> {user.preferences.categories.join(', ')}</p>
+          <p><strong>Marcas:</strong> {user.preferences.brands.join(', ')}</p>
+          <p><strong>Faixa de preço:</strong> {user.preferences.price_range}</p>
 
-        <button onClick={gerarRecomendacoes}>Gerar Recomendações</button>
+          <button className="btn-rounded-left" onClick={gerarRecomendacoes} disabled={loading}>
+            {loading ? "Gerando..." : "Gerar Recomendações"}
+          </button>
 
-        {recommendations.length > 0 && (
-          <Carousel title="Recomendados para você" items={recommendations} renderItem={(p) => <ProductCard product={p} />} />
-        )}
-      </>}
+          {recommendations.length > 0 && (
+            <Carousel
+              title="Recomendados para você"
+              items={recommendations}
+              renderItem={(p) => <ProductCard product={p} />}
+            />
+          )}
+        </>
+      )}
     </div>
   );
 }
