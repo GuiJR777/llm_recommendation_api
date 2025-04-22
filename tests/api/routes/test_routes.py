@@ -1,5 +1,7 @@
+import pytest
 from fastapi.testclient import TestClient
 from main import app
+from unittest.mock import AsyncMock, patch
 
 client = TestClient(app)
 
@@ -58,6 +60,35 @@ class TestUserRecommendations:
 
 
 class TestProductDescriptionRoute:
+    @patch(
+        "services.llm.strategies.llm_chatgpt.LLMChatGPTStrategy.generate_description",
+        new_callable=AsyncMock,
+    )
+    def test_if_chatgpt_should_return_200(self, mock_generate):
+        mock_generate.return_value = "Mocked description!"
+
+        response = client.get("/product-description/p1005?llm=chatgpt")
+
+        assert response.status_code == 200
+        assert "personalized_description" in response.json()
+        assert (
+            response.json()["personalized_description"]
+            == "Mocked description!"
+        )
+
+    @patch(
+        "services.llm.strategies.llm_chatgpt.LLMChatGPTStrategy.generate_description",
+        new_callable=AsyncMock,
+    )
+    def test_if_chatgpt_with_error_should_fallback(self, mock_generate):
+        mock_generate.side_effect = Exception("Unauthorized")
+
+        response = client.get("/product-description/p1005?llm=chatgpt")
+
+        assert response.status_code == 200
+        assert "personalized_description" in response.json()
+        assert isinstance(response.json()["personalized_description"], str)
+
     def test_if_should_return_personalized_description(self):
         response = client.get(
             "/product-description/p1005?user_id=u1001&llm=emulator"
@@ -85,13 +116,6 @@ class TestProductDescriptionRoute:
     def test_if_invalid_llm_should_return_422(self):
         response = client.get("/product-description/p1005?llm=banana")
         assert response.status_code == 422  # Validação automática do Enum
-
-    def test_if_unimplemented_llm_should_return_501(self):
-        response = client.get("/product-description/p1005?llm=chatgpt")
-        assert response.status_code == 501
-        assert (
-            "ChatGPT ainda não foi implementado" in response.json()["detail"]
-        )
 
 
 class TestCacheEndpoint:
