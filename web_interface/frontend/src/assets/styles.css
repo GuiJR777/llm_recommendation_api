@@ -1,0 +1,120 @@
+
+:root {
+  --primary-color: #004c97;
+  --secondary-color: #e6f0f8;
+  --text-color: #212121;
+  --bg-color: #f4f6f9;
+  --card-bg: #ffffff;
+  --border-radius: 12px;
+  --shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+h1, h2 {
+  color: var(--primary-color);
+}
+
+button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #003b7a;
+}
+
+.card {
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+  cursor: pointer;
+  min-height: 150px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card:hover {
+  background-color: white;
+  color: var(--text-color);
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: inherit;
+}
+
+.card p {
+  margin: 0.3rem 0;
+  font-size: 0.9rem;
+  color: inherit;
+}
+
+.btn-rounded-left {
+  background-color: #6B5CFF;
+  color: #fff;
+  font-weight: bold;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-top-left-radius: 1.2rem;
+  border-bottom-left-radius: 0rem;
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 1.2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-rounded-left:hover {
+  background-color: #5948e0;
+}
+
+.card-tooltip-wrapper {
+  position: relative;
+}
+
+.card-tooltip {
+  position: absolute;
+  bottom: -1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.75);
+  color: white;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  z-index: 10;
+}
+
+.card-tooltip-wrapper:hover .card-tooltip {
+  opacity: 1;
+}
+
