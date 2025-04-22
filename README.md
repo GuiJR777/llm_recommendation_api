@@ -14,17 +14,36 @@ Este projeto é uma solução para um desafio técnico envolvendo:
 
 ## 🚀 Como rodar a aplicação
 
-### 1. Instale as dependências de produção:
+### 1. Clone o repositório:
+```bash
+git clone https://github.com/GuiJR777/llm_recommendation_api.git
+cd llm_recommendation_api
+```
+
+### 2. Verifique a versão do Python:
+Este projeto requer **Python 3.10 ou superior**.
+```bash
+python --version
+```
+
+### 3. Crie e ative um ambiente virtual:
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/macOS
+venv\Scripts\activate   # Windows
+```
+
+### 4. Instale as dependências de produção:
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Instale dependências de desenvolvimento/teste:
+### 5. Ou instale dependências de desenvolvimento/teste:
 ```bash
 pip install -r requirements-dev.txt
 ```
 
-### 3. Configure variáveis de ambiente em um arquivo `.env`:
+### 6. Configure variáveis de ambiente em um arquivo `.env`:
 ```dotenv
 # Redis
 REDIS_HOST=localhost
@@ -37,12 +56,12 @@ OPENAI_API_KEY=sk-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 OPENAI_MODEL=gpt-4o-mini
 ```
 
-### 4. Inicie o servidor local:
+### 7. Inicie o servidor local:
 ```bash
 uvicorn main:app --reload
 ```
 
-### 5. Acesse a documentação da API:
+### 8. Acesse a documentação da API:
 - 📘 Swagger UI: http://localhost:8000/docs
 - 📄 OpenAPI JSON: http://localhost:8000/openapi.json
 
