@@ -86,10 +86,10 @@ class TestMakeCacheKey:
         from cache.redis_client import make_cache_key
 
         key1 = make_cache_key(
-            "recommend_for_user", "u1001", strategy="history"
+            "recommend_for_user", user_id="u1001", strategy_name="history"
         )
         key2 = make_cache_key(
-            "recommend_for_user", "u1001", strategy="history"
+            "recommend_for_user", user_id="u1001", strategy_name="history"
         )
 
         assert isinstance(key1, str)
@@ -100,13 +100,13 @@ class TestMakeCacheKey:
         from cache.redis_client import make_cache_key
 
         key1 = make_cache_key(
-            "recommend_for_user", "u1001", strategy="history"
+            "recommend_for_user", user_id="u1001", strategy_name="history"
         )
         key2 = make_cache_key(
-            "recommend_for_user", "u1001", strategy="preference"
+            "recommend_for_user", user_id="u1001", strategy_name="preference"
         )
         key3 = make_cache_key(
-            "recommend_for_user", "u2002", strategy="history"
+            "recommend_for_user", user_id="u2002", strategy_name="history"
         )
 
         assert key1 != key2
