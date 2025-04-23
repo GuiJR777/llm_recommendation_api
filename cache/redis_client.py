@@ -19,7 +19,20 @@ except redis.RedisError as e:
 
 
 def make_cache_key(function_name: str, *args, **kwargs) -> str:
-    key_raw = f"{function_name}:{args}:{kwargs}"
+    key_raw = ""
+    match function_name:
+        case "recommend_for_user":
+            user_id = kwargs.get("user_id", "None")
+            strategy_name = kwargs.get("strategy_name", "None")
+            key_raw = f"{function_name}-{user_id}-{strategy_name}" # Vai ficar tipo 'recommend_for_user-u1001-history' # noqa
+        case "describe":
+            product_id = kwargs.get("product").id if kwargs.get("product") else "None" # noqa
+            user_id = kwargs.get("user_id", "None")
+            strategy_name = kwargs.get("strategy_name", "None")
+            key_raw = f"{function_name}-{product_id}-{user_id}-{strategy_name}" # Vai ficar tipo 'describe-p1005-u1001-chatgpt' # noqa
+        case _:
+            key_raw = f"{function_name}+{'+'.join(str(arg) for arg in args)}+{'+'.join(f'{k}={v}' for k, v in kwargs.items())}" # noqa
+
     return hashlib.sha256(key_raw.encode()).hexdigest()
 
 
