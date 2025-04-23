@@ -22,7 +22,7 @@ class ProductDescriptionService:
 
     @async_cache_result(ttl=60 * 60 * 24)  # 24h
     async def describe(
-        self, product: Product, user_id: Optional[str] = None
+        self, product: Product, user_id: Optional[str] = None, strategy_name: str = "emulator" # noqa
     ) -> str:
         logger.info(
             f"[Description Start] LLM={self.strategy.__class__.__name__}, product_id={product.id}, user_id={user_id}"  # noqa
