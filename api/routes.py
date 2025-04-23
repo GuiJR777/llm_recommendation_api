@@ -133,7 +133,11 @@ async def generate_product_description(
                 )
 
         product: Product = product_repository.get_by_id(product_id)
-        description = await description_service.describe(product, user_id)
+        description = await description_service.describe(
+            product=product,
+            user_id=user_id,
+            strategy_name=llm.value,
+            )
 
         return DescriptionResponse(
             user_id=user_id,
