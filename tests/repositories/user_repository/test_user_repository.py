@@ -5,7 +5,7 @@ from models.user import User
 class TestUserRepository:
     def test_if_user_repository_should_return_user_by_id(self):
         # Arrange
-        repo = UserRepository(path="data/users.json")
+        repo = UserRepository(path="web_interface/backend/data/users.json")
 
         # Act
         user = repo.get_by_id("u1001")
@@ -16,7 +16,7 @@ class TestUserRepository:
 
     def test_if_user_repository_should_return_user_dict(self):
         # Arrange
-        repo = UserRepository(path="data/users.json")
+        repo = UserRepository(path="web_interface/backend/data/users.json")
         user = repo.get_by_id("u1001")
 
         # Act

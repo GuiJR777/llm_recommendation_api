@@ -118,7 +118,7 @@ class LLMApiMock:
 
         # Carrega mais produtos do arquivo se disponível
         try:
-            with open("data/products.json", "r", encoding="utf-8") as f:
+            with open("web_interface/backend/data/products.json", "r", encoding="utf-8") as f:
                 products_data = json.load(f)
                 for product in products_data.get("products", []):
                     product_id = product.get("id")
